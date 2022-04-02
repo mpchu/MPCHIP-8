@@ -164,7 +164,7 @@ private:
 
     uint8_t keypad[Chip8::numInputKeys]; /**< CHIP-8 input keys */
 
-    uint32_t videoMem[Chip8::displayPixelHeight][Chip8::displayPixelWidth]; /**< CHIP-8 display memory */
+    uint64_t videoMem[Chip8::displayPixelHeight]; /**< CHIP-8 display memory */
 
     uint16_t opcode; /**< Current opcode to execute */
 
