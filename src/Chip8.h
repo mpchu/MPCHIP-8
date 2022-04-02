@@ -22,7 +22,7 @@ class Chip8 {
 /**
  * @brief Opcode emulation function typedef
  */
-typedef void (mpc::Chip8::*OpCodeFn)();
+typedef void (mpc::Chip8::*OpCodeFn)(uint8_t, uint8_t, uint8_t, uint8_t, uint16_t);
 
 public:
     Chip8();
@@ -73,84 +73,240 @@ private:
     int initOpcodeTables();
 
     // Opcode emulation functions
-    void op00E0_CLS();
+    void op00E0_CLS(uint8_t x,
+                    uint8_t y,
+                    uint8_t lsn,
+                    uint8_t lsb,
+                    uint16_t addr);
 
-    void op00EE_RET();
+    void op00EE_RET(uint8_t x,
+                    uint8_t y,
+                    uint8_t lsn,
+                    uint8_t lsb,
+                    uint16_t addr);
 
-    void op1nnn_JP_addr();
+    void op1nnn_JP_addr(uint8_t x,
+                        uint8_t y,
+                        uint8_t lsn,
+                        uint8_t lsb,
+                        uint16_t addr);
 
-    void op2nnn_CALL_addr();
+    void op2nnn_CALL_addr(uint8_t x,
+                          uint8_t y,
+                          uint8_t lsn,
+                          uint8_t lsb,
+                          uint16_t addr);
 
-    void op3xkk_SE_Vx_byte();
+    void op3xkk_SE_Vx_byte(uint8_t x,
+                           uint8_t y,
+                           uint8_t lsn,
+                           uint8_t lsb,
+                           uint16_t addr);
 
-    void op4xkk_SNE_Vx_byte();
+    void op4xkk_SNE_Vx_byte(uint8_t x,
+                            uint8_t y,
+                            uint8_t lsn,
+                            uint8_t lsb,
+                            uint16_t addr);
 
-    void op5xy0_SE_Vx_Vy();
+    void op5xy0_SE_Vx_Vy(uint8_t x,
+                         uint8_t y,
+                         uint8_t lsn,
+                         uint8_t lsb,
+                         uint16_t addr);
 
-    void op6xkk_LD_Vx_byte();
+    void op6xkk_LD_Vx_byte(uint8_t x,
+                           uint8_t y,
+                           uint8_t lsn,
+                           uint8_t lsb,
+                           uint16_t addr);
 
-    void op7xkk_ADD_Vx_byte();
+    void op7xkk_ADD_Vx_byte(uint8_t x,
+                            uint8_t y,
+                            uint8_t lsn,
+                            uint8_t lsb,
+                            uint16_t addr);
 
-    void op8xy0_LD_Vx_Vy();
+    void op8xy0_LD_Vx_Vy(uint8_t x,
+                         uint8_t y,
+                         uint8_t lsn,
+                         uint8_t lsb,
+                         uint16_t addr);
 
-    void op8xy1_OR_Vx_Vy();
+    void op8xy1_OR_Vx_Vy(uint8_t x,
+                         uint8_t y,
+                         uint8_t lsn,
+                         uint8_t lsb,
+                         uint16_t addr);
 
-    void op8xy2_AND_Vx_Vy();
+    void op8xy2_AND_Vx_Vy(uint8_t x,
+                          uint8_t y,
+                          uint8_t lsn,
+                          uint8_t lsb,
+                          uint16_t addr);
 
-    void op8xy3_XOR_Vx_Vy();
+    void op8xy3_XOR_Vx_Vy(uint8_t x,
+                          uint8_t y,
+                          uint8_t lsn,
+                          uint8_t lsb,
+                          uint16_t addr);
 
-    void op8xy4_ADD_Vx_Vy();
+    void op8xy4_ADD_Vx_Vy(uint8_t x,
+                          uint8_t y,
+                          uint8_t lsn,
+                          uint8_t lsb,
+                          uint16_t addr);
 
-    void op8xy5_SUB_Vx_Vy();
+    void op8xy5_SUB_Vx_Vy(uint8_t x,
+                          uint8_t y,
+                          uint8_t lsn,
+                          uint8_t lsb,
+                          uint16_t addr);
 
-    void op8xy6_SHR_Vx();
+    void op8xy6_SHR_Vx(uint8_t x,
+                       uint8_t y,
+                       uint8_t lsn,
+                       uint8_t lsb,
+                       uint16_t addr);
 
-    void op8xy7_SUBN_Vx_Vy();
+    void op8xy7_SUBN_Vx_Vy(uint8_t x,
+                           uint8_t y,
+                           uint8_t lsn,
+                           uint8_t lsb,
+                           uint16_t addr);
 
-    void op8xyE_SHL_Vx_Vy();
+    void op8xyE_SHL_Vx_Vy(uint8_t x,
+                          uint8_t y,
+                          uint8_t lsn,
+                          uint8_t lsb,
+                          uint16_t addr);
 
-    void op9xy0_SNE_Vx_Vy();
+    void op9xy0_SNE_Vx_Vy(uint8_t x,
+                          uint8_t y,
+                          uint8_t lsn,
+                          uint8_t lsb,
+                          uint16_t addr);
 
-    void opAnnn_LD_I_addr();
+    void opAnnn_LD_I_addr(uint8_t x,
+                          uint8_t y,
+                          uint8_t lsn,
+                          uint8_t lsb,
+                          uint16_t addr);
 
-    void opBnnn_JP_V0();
+    void opBnnn_JP_V0(uint8_t x,
+                      uint8_t y,
+                      uint8_t lsn,
+                      uint8_t lsb,
+                      uint16_t addr);
 
-    void opCxkk_RND_Vx_byte();
+    void opCxkk_RND_Vx_byte(uint8_t x,
+                            uint8_t y,
+                            uint8_t lsn,
+                            uint8_t lsb,
+                            uint16_t addr);
 
-    void opDxyn_DRW_Vx_Vy_nibble();
+    void opDxyn_DRW_Vx_Vy_nibble(uint8_t x,
+                                 uint8_t y,
+                                 uint8_t lsn,
+                                 uint8_t lsb,
+                                 uint16_t addr);
 
-    void opEx9E_SKP_Vx();
+    void opEx9E_SKP_Vx(uint8_t x,
+                       uint8_t y,
+                       uint8_t lsn,
+                       uint8_t lsb,
+                       uint16_t addr);
 
-    void opExA1_SKNP_Vx();
+    void opExA1_SKNP_Vx(uint8_t x,
+                        uint8_t y,
+                        uint8_t lsn,
+                        uint8_t lsb,
+                        uint16_t addr);
 
-    void opFx07_LD_Vx_DT();
+    void opFx07_LD_Vx_DT(uint8_t x,
+                         uint8_t y,
+                         uint8_t lsn,
+                         uint8_t lsb,
+                         uint16_t addr);
 
-    void opFx0A_LD_Vx_K();
+    void opFx0A_LD_Vx_K(uint8_t x,
+                        uint8_t y,
+                        uint8_t lsn,
+                        uint8_t lsb,
+                        uint16_t addr);
 
-    void opFx15_LD_DT_Vx();
+    void opFx15_LD_DT_Vx(uint8_t x,
+                         uint8_t y,
+                         uint8_t lsn,
+                         uint8_t lsb,
+                         uint16_t addr);
 
-    void opFx18_LD_ST_Vx();
+    void opFx18_LD_ST_Vx(uint8_t x,
+                         uint8_t y,
+                         uint8_t lsn,
+                         uint8_t lsb,
+                         uint16_t addr);
 
-    void opFx1E_ADD_I_Vx();
+    void opFx1E_ADD_I_Vx(uint8_t x,
+                         uint8_t y,
+                         uint8_t lsn,
+                         uint8_t lsb,
+                         uint16_t addr);
 
-    void opFx29_LD_F_Vx();
+    void opFx29_LD_F_Vx(uint8_t x,
+                        uint8_t y,
+                        uint8_t lsn,
+                        uint8_t lsb,
+                        uint16_t addr);
 
-    void opFx33_LD_B_Vx();
+    void opFx33_LD_B_Vx(uint8_t x,
+                        uint8_t y,
+                        uint8_t lsn,
+                        uint8_t lsb,
+                        uint16_t addr);
 
-    void opFx55_LD_I_Vx();
+    void opFx55_LD_I_Vx(uint8_t x,
+                        uint8_t y,
+                        uint8_t lsn,
+                        uint8_t lsb,
+                        uint16_t addr);
 
-    void opFx65_LD_Vx_I();
+    void opFx65_LD_Vx_I(uint8_t x,
+                        uint8_t y,
+                        uint8_t lsn,
+                        uint8_t lsb,
+                        uint16_t addr);
 
-    void opNULL();
+    void opNULL(uint8_t x,
+                uint8_t y,
+                uint8_t lsn,
+                uint8_t lsb,
+                uint16_t addr);
 
     // Opcode table functions
-    void execOpcode0();
+    void execOpcode0(uint8_t x,
+                     uint8_t y,
+                     uint8_t lsn,
+                     uint8_t lsb,
+                     uint16_t addr);
 
-    void execOpcode8();
+    void execOpcode8(uint8_t x,
+                     uint8_t y,
+                     uint8_t lsn,
+                     uint8_t lsb,
+                     uint16_t addr);
 
-    void execOpcodeE();
+    void execOpcodeE(uint8_t x,
+                     uint8_t y,
+                     uint8_t lsn,
+                     uint8_t lsb,
+                     uint16_t addr);
 
-    void execOpcodeF();
+    void execOpcodeF(uint8_t x,
+                     uint8_t y,
+                     uint8_t lsn,
+                     uint8_t lsb,
+                     uint16_t addr);
 
     static const uint8_t fontset[Chip8::numBuiltInChars][Chip8::charSizeBytes]; /**< Fontset built into each CHIP-8 */
 

@@ -239,365 +239,868 @@ int mpc::Chip8::initOpcodeTables() {
 
 // Opcode emulation functions
 /**
- * @fn 
+ * @fn void mpc::Chip8::op00E0_CLS(uint8_t x,
+ *                                 uint8_t y,
+ *                                 uint8_t lsn,
+ *                                 uint8_t lsb,
+ *                                 uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op00E0_CLS() {
+void mpc::Chip8::op00E0_CLS(uint8_t x,
+                            uint8_t y,
+                            uint8_t lsn,
+                            uint8_t lsb,
+                            uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op00EE_RET(uint8_t x,
+ *                                 uint8_t y,
+ *                                 uint8_t lsn,
+ *                                 uint8_t lsb,
+ *                                 uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op00EE_RET() {
+void mpc::Chip8::op00EE_RET(uint8_t x,
+                            uint8_t y,
+                            uint8_t lsn,
+                            uint8_t lsb,
+                            uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op1nnn_JP_addr(uint8_t x,
+ *                                     uint8_t y,
+ *                                     uint8_t lsn,
+ *                                     uint8_t lsb,
+ *                                     uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op1nnn_JP_addr() {
+void mpc::Chip8::op1nnn_JP_addr(uint8_t x,
+                                uint8_t y,
+                                uint8_t lsn,
+                                uint8_t lsb,
+                                uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op2nnn_CALL_addr(uint8_t x,
+ *                                       uint8_t y,
+ *                                       uint8_t lsn,
+ *                                       uint8_t lsb,
+ *                                       uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op2nnn_CALL_addr() {
+void mpc::Chip8::op2nnn_CALL_addr(uint8_t x,
+                                  uint8_t y,
+                                  uint8_t lsn,
+                                  uint8_t lsb,
+                                  uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op3xkk_SE_Vx_byte(uint8_t x,
+ *                                        uint8_t y,
+ *                                        uint8_t lsn,
+ *                                        uint8_t lsb,
+ *                                        uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op3xkk_SE_Vx_byte() {
+void mpc::Chip8::op3xkk_SE_Vx_byte(uint8_t x,
+                                   uint8_t y,
+                                   uint8_t lsn,
+                                   uint8_t lsb,
+                                   uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op4xkk_SNE_Vx_byte(uint8_t x,
+ *                                         uint8_t y,
+ *                                         uint8_t lsn,
+ *                                         uint8_t lsb,
+ *                                         uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op4xkk_SNE_Vx_byte() {
+void mpc::Chip8::op4xkk_SNE_Vx_byte(uint8_t x,
+                                    uint8_t y,
+                                    uint8_t lsn,
+                                    uint8_t lsb,
+                                    uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op5xy0_SE_Vx_Vy(uint8_t x,
+ *                                      uint8_t y,
+ *                                      uint8_t lsn,
+ *                                      uint8_t lsb,
+ *                                      uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op5xy0_SE_Vx_Vy() {
+void mpc::Chip8::op5xy0_SE_Vx_Vy(uint8_t x,
+                                 uint8_t y,
+                                 uint8_t lsn,
+                                 uint8_t lsb,
+                                 uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op6xkk_LD_Vx_byte(uint8_t x,
+ *                                        uint8_t y,
+ *                                        uint8_t lsn,
+ *                                        uint8_t lsb,
+ *                                        uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op6xkk_LD_Vx_byte() {
+void mpc::Chip8::op6xkk_LD_Vx_byte(uint8_t x,
+                                   uint8_t y,
+                                   uint8_t lsn,
+                                   uint8_t lsb,
+                                   uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op7xkk_ADD_Vx_byte(uint8_t x,
+ *                                         uint8_t y,
+ *                                         uint8_t lsn,
+ *                                         uint8_t lsb,
+ *                                         uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op7xkk_ADD_Vx_byte() {
+void mpc::Chip8::op7xkk_ADD_Vx_byte(uint8_t x,
+                                    uint8_t y,
+                                    uint8_t lsn,
+                                    uint8_t lsb,
+                                    uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op8xy0_LD_Vx_Vy(uint8_t x,
+ *                                      uint8_t y,
+ *                                      uint8_t lsn,
+ *                                      uint8_t lsb,
+ *                                      uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op8xy0_LD_Vx_Vy() {
+void mpc::Chip8::op8xy0_LD_Vx_Vy(uint8_t x,
+                                 uint8_t y,
+                                 uint8_t lsn,
+                                 uint8_t lsb,
+                                 uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op8xy1_OR_Vx_Vy(uint8_t x,
+ *                                      uint8_t y,
+ *                                      uint8_t lsn,
+ *                                      uint8_t lsb,
+ *                                      uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op8xy1_OR_Vx_Vy() {
+void mpc::Chip8::op8xy1_OR_Vx_Vy(uint8_t x,
+                                 uint8_t y,
+                                 uint8_t lsn,
+                                 uint8_t lsb,
+                                 uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op8xy2_AND_Vx_Vy(uint8_t x,
+ *                                       uint8_t y,
+ *                                       uint8_t lsn,
+ *                                       uint8_t lsb,
+ *                                       uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op8xy2_AND_Vx_Vy() {
+void mpc::Chip8::op8xy2_AND_Vx_Vy(uint8_t x,
+                                  uint8_t y,
+                                  uint8_t lsn,
+                                  uint8_t lsb,
+                                  uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op8xy3_XOR_Vx_Vy(uint8_t x,
+ *                                       uint8_t y,
+ *                                       uint8_t lsn,
+ *                                       uint8_t lsb,
+ *                                       uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op8xy3_XOR_Vx_Vy() {
+void mpc::Chip8::op8xy3_XOR_Vx_Vy(uint8_t x,
+                                  uint8_t y,
+                                  uint8_t lsn,
+                                  uint8_t lsb,
+                                  uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op8xy4_ADD_Vx_Vy(uint8_t x,
+ *                                       uint8_t y,
+ *                                       uint8_t lsn,
+ *                                       uint8_t lsb,
+ *                                       uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op8xy4_ADD_Vx_Vy() {
+void mpc::Chip8::op8xy4_ADD_Vx_Vy(uint8_t x,
+                                  uint8_t y,
+                                  uint8_t lsn,
+                                  uint8_t lsb,
+                                  uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op8xy5_SUB_Vx_Vy(uint8_t x,
+ *                                       uint8_t y,
+ *                                       uint8_t lsn,
+ *                                       uint8_t lsb,
+ *                                       uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op8xy5_SUB_Vx_Vy() {
+void mpc::Chip8::op8xy5_SUB_Vx_Vy(uint8_t x,
+                                  uint8_t y,
+                                  uint8_t lsn,
+                                  uint8_t lsb,
+                                  uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op8xy6_SHR_Vx(uint8_t x,
+ *                                    uint8_t y,
+ *                                    uint8_t lsn,
+ *                                    uint8_t lsb,
+ *                                    uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op8xy6_SHR_Vx() {
+void mpc::Chip8::op8xy6_SHR_Vx(uint8_t x,
+                               uint8_t y,
+                               uint8_t lsn,
+                               uint8_t lsb,
+                               uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op8xy7_SUBN_Vx_Vy(uint8_t x,
+ *                                        uint8_t y,
+ *                                        uint8_t lsn,
+ *                                        uint8_t lsb,
+ *                                        uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op8xy7_SUBN_Vx_Vy() {
+void mpc::Chip8::op8xy7_SUBN_Vx_Vy(uint8_t x,
+                                   uint8_t y,
+                                   uint8_t lsn,
+                                   uint8_t lsb,
+                                   uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op8xyE_SHL_Vx_Vy(uint8_t x,
+ *                                       uint8_t y,
+ *                                       uint8_t lsn,
+ *                                       uint8_t lsb,
+ *                                       uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op8xyE_SHL_Vx_Vy() {
+void mpc::Chip8::op8xyE_SHL_Vx_Vy(uint8_t x,
+                                  uint8_t y,
+                                  uint8_t lsn,
+                                  uint8_t lsb,
+                                  uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::op9xy0_SNE_Vx_Vy(uint8_t x,
+ *                                       uint8_t y,
+ *                                       uint8_t lsn,
+ *                                       uint8_t lsb,
+ *                                       uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::op9xy0_SNE_Vx_Vy() {
+void mpc::Chip8::op9xy0_SNE_Vx_Vy(uint8_t x,
+                                  uint8_t y,
+                                  uint8_t lsn,
+                                  uint8_t lsb,
+                                  uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opAnnn_LD_I_addr(uint8_t x,
+ *                                       uint8_t y,
+ *                                       uint8_t lsn,
+ *                                       uint8_t lsb,
+ *                                       uint16_t addr) 
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opAnnn_LD_I_addr() {
+void mpc::Chip8::opAnnn_LD_I_addr(uint8_t x,
+                                  uint8_t y,
+                                  uint8_t lsn,
+                                  uint8_t lsb,
+                                  uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opBnnn_JP_V0(uint8_t x,
+ *                                   uint8_t y,
+ *                                   uint8_t lsn,
+ *                                   uint8_t lsb,
+ *                                   uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opBnnn_JP_V0() {
+void mpc::Chip8::opBnnn_JP_V0(uint8_t x,
+                              uint8_t y,
+                              uint8_t lsn,
+                              uint8_t lsb,
+                              uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opCxkk_RND_Vx_byte(uint8_t x,
+ *                                         uint8_t y,
+ *                                         uint8_t lsn,
+ *                                         uint8_t lsb,
+ *                                         uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opCxkk_RND_Vx_byte() {
+void mpc::Chip8::opCxkk_RND_Vx_byte(uint8_t x,
+                                    uint8_t y,
+                                    uint8_t lsn,
+                                    uint8_t lsb,
+                                    uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opDxyn_DRW_Vx_Vy_nibble(uint8_t x,
+ *                                              uint8_t y,
+ *                                              uint8_t lsn,
+ *                                              uint8_t lsb,
+ *                                              uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opDxyn_DRW_Vx_Vy_nibble() {
+void mpc::Chip8::opDxyn_DRW_Vx_Vy_nibble(uint8_t x,
+                                         uint8_t y,
+                                         uint8_t lsn,
+                                         uint8_t lsb,
+                                         uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opEx9E_SKP_Vx(uint8_t x,
+ *                                    uint8_t y,
+ *                                    uint8_t lsn,
+ *                                    uint8_t lsb,
+ *                                    uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opEx9E_SKP_Vx() {
+void mpc::Chip8::opEx9E_SKP_Vx(uint8_t x,
+                               uint8_t y,
+                               uint8_t lsn,
+                               uint8_t lsb,
+                               uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opExA1_SKNP_Vx(uint8_t x,
+ *                                     uint8_t y,
+ *                                     uint8_t lsn,
+ *                                     uint8_t lsb,
+ *                                     uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opExA1_SKNP_Vx() {
+void mpc::Chip8::opExA1_SKNP_Vx(uint8_t x,
+                                uint8_t y,
+                                uint8_t lsn,
+                                uint8_t lsb,
+                                uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opFx07_LD_Vx_DT(uint8_t x,
+ *                                      uint8_t y,
+ *                                      uint8_t lsn,
+ *                                      uint8_t lsb,
+ *                                      uint16_t addr) 
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opFx07_LD_Vx_DT() {
+void mpc::Chip8::opFx07_LD_Vx_DT(uint8_t x,
+                                 uint8_t y,
+                                 uint8_t lsn,
+                                 uint8_t lsb,
+                                 uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opFx0A_LD_Vx_K(uint8_t x,
+ *                                     uint8_t y,
+ *                                     uint8_t lsn,
+ *                                     uint8_t lsb,
+ *                                     uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opFx0A_LD_Vx_K() {
+void mpc::Chip8::opFx0A_LD_Vx_K(uint8_t x,
+                                uint8_t y,
+                                uint8_t lsn,
+                                uint8_t lsb,
+                                uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opFx15_LD_DT_Vx(uint8_t x,
+ *                                      uint8_t y,
+ *                                      uint8_t lsn,
+ *                                      uint8_t lsb,
+ *                                      uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opFx15_LD_DT_Vx() {
+void mpc::Chip8::opFx15_LD_DT_Vx(uint8_t x,
+                                 uint8_t y,
+                                 uint8_t lsn,
+                                 uint8_t lsb,
+                                 uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opFx18_LD_ST_Vx(uint8_t x,
+ *                                      uint8_t y,
+ *                                      uint8_t lsn,
+ *                                      uint8_t lsb,
+ *                                      uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opFx18_LD_ST_Vx() {
+void mpc::Chip8::opFx18_LD_ST_Vx(uint8_t x,
+                                 uint8_t y,
+                                 uint8_t lsn,
+                                 uint8_t lsb,
+                                 uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opFx1E_ADD_I_Vx(uint8_t x,
+ *                                      uint8_t y,
+ *                                      uint8_t lsn,
+ *                                      uint8_t lsb,
+ *                                      uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opFx1E_ADD_I_Vx() {
+void mpc::Chip8::opFx1E_ADD_I_Vx(uint8_t x,
+                                 uint8_t y,
+                                 uint8_t lsn,
+                                 uint8_t lsb,
+                                 uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opFx29_LD_F_Vx(uint8_t x,
+ *                                     uint8_t y,
+ *                                     uint8_t lsn,
+ *                                     uint8_t lsb,
+ *                                     uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opFx29_LD_F_Vx() {
+void mpc::Chip8::opFx29_LD_F_Vx(uint8_t x,
+                                uint8_t y,
+                                uint8_t lsn,
+                                uint8_t lsb,
+                                uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opFx33_LD_B_Vx(uint8_t x,
+ *                                     uint8_t y,
+ *                                     uint8_t lsn,
+ *                                     uint8_t lsb,
+ *                                     uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opFx33_LD_B_Vx() {
+void mpc::Chip8::opFx33_LD_B_Vx(uint8_t x,
+                                uint8_t y,
+                                uint8_t lsn,
+                                uint8_t lsb,
+                                uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opFx55_LD_I_Vx(uint8_t x,
+ *                                     uint8_t y,
+ *                                     uint8_t lsn,
+ *                                     uint8_t lsb,
+ *                                     uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opFx55_LD_I_Vx() {
+void mpc::Chip8::opFx55_LD_I_Vx(uint8_t x,
+                                uint8_t y,
+                                uint8_t lsn,
+                                uint8_t lsb,
+                                uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn 
+ * @fn void mpc::Chip8::opFx65_LD_Vx_I(uint8_t x,
+ *                                     uint8_t y,
+ *                                     uint8_t lsn,
+ *                                     uint8_t lsb,
+ *                                     uint16_t addr)
  * @brief 
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opFx65_LD_Vx_I() {
+void mpc::Chip8::opFx65_LD_Vx_I(uint8_t x,
+                                uint8_t y,
+                                uint8_t lsn,
+                                uint8_t lsb,
+                                uint16_t addr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void mpc::Chip8::opNULL()
+ * @fn void mpc::Chip8::opNULL(uint8_t x,
+ *                             uint8_t y,
+ *                             uint8_t lsn,
+ *                             uint8_t lsb,
+ *                             uint16_t addr)
  * @brief Opcode function that performs no action in case of opcode lookup table error.
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::opNULL() {
+void mpc::Chip8::opNULL(uint8_t x,
+                        uint8_t y,
+                        uint8_t lsn,
+                        uint8_t lsb,
+                        uint16_t addr) {
 
 }
 
 // Opcode table functions
 /**
- * @fn void mpc::Chip8::execOpcode0()
+ * @fn void mpc::Chip8::execOpcode0(uint8_t x,
+ *                                  uint8_t y,
+ *                                  uint8_t lsn,
+ *                                  uint8_t lsb,
+ *                                  uint16_t addr)
  * @brief Performs a lookup and executes the correct instruction for opcodes with a most-significant nibble of 0.
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode. Used as subtype for opcodes 0x0xxx.
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::execOpcode0() {
-    uint8_t subcode = opcode & 0x000F;
-    if (subcode < sizeof(opcode0Table)/sizeof(opcode0Table[0])) {
-        (this->*opcode0Table[subcode])();
+void mpc::Chip8::execOpcode0(uint8_t x,
+                             uint8_t y,
+                             uint8_t lsn,
+                             uint8_t lsb,
+                             uint16_t addr) {
+    if (lsn < sizeof(opcode0Table)/sizeof(opcode0Table[0])) {
+        (this->*opcode0Table[lsn])(x, y, lsn, lsb, addr);
     }
 }
 
 /**
- * @fn void mpc::Chip8::execOpcode8()
+ * @fn void mpc::Chip8::execOpcode8(uint8_t x,
+ *                                  uint8_t y,
+ *                                  uint8_t lsn,
+ *                                  uint8_t lsb,
+ *                                  uint16_t addr)
  * @brief Performs a lookup and executes the correct instruction for opcodes with a most-significant nibble of 8.
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode. Used as subtype for opcodes 0x8xxx.
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::execOpcode8() {
-    uint8_t subcode = opcode & 0x000F;
-    if (subcode < sizeof(opcode8Table)/sizeof(opcode8Table[0])) {
-       (this->*opcode8Table[subcode])();
+void mpc::Chip8::execOpcode8(uint8_t x,
+                             uint8_t y,
+                             uint8_t lsn,
+                             uint8_t lsb,
+                             uint16_t addr) {
+    if (lsn < sizeof(opcode8Table)/sizeof(opcode8Table[0])) {
+       (this->*opcode8Table[lsn])(x, y, lsn, lsb, addr);
     }
 }
 
 /**
- * @fn void mpc::Chip8::execOpcodeE()
+ * @fn void mpc::Chip8::execOpcodeE(uint8_t x,
+ *                                  uint8_t y,
+ *                                  uint8_t lsn,
+ *                                  uint8_t lsb,
+ *                                  uint16_t addr)
  * @brief Performs a lookup and executes the correct instruction for opcodes with a most-significant nibble of E.
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode. Used as subtype for opcodes 0xExxx.
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::execOpcodeE() {
-    uint8_t subcode = opcode & 0x000F;
-    if (subcode < sizeof(opcodeETable)/sizeof(opcodeETable[0])) {
-        (this->*opcodeETable[subcode])();
+void mpc::Chip8::execOpcodeE(uint8_t x,
+                             uint8_t y,
+                             uint8_t lsn,
+                             uint8_t lsb,
+                             uint16_t addr) {
+    if (lsn < sizeof(opcodeETable)/sizeof(opcodeETable[0])) {
+        (this->*opcodeETable[lsn])(x, y, lsn, lsb, addr);
     }
 }
 
 /**
- * @fn void mpc::Chip8::execOpcodeF()
+ * @fn void mpc::Chip8::execOpcodeF(uint8_t x,
+ *                                  uint8_t y,
+ *                                  uint8_t lsn,
+ *                                  uint8_t lsb,
+ *                                  uint16_t addr)
  * @brief Performs a lookup and executes the correct instruction for opcodes with a most-significant nibble of F.
+ * @param[in] x Second nibble value as decoded from 16-bit opcode
+ * @param[in] y First nibble value as decoded from 16-bit opcode
+ * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
+ * @param[in] lsb Least significant byte as decoded from 16-bit opcode. Used as subtype for opcodes 0xFxxx.
+ * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
  * @return none
  */
-void mpc::Chip8::execOpcodeF() {
-    uint8_t subcode = opcode & 0x00FF;
-    if (subcode < sizeof(opcodeFTable)/sizeof(opcodeFTable[0])) {
-        (this->*opcodeFTable[subcode])();
+void mpc::Chip8::execOpcodeF(uint8_t x,
+                             uint8_t y,
+                             uint8_t lsn,
+                             uint8_t lsb,
+                             uint16_t addr) {
+    if (lsb < sizeof(opcodeFTable)/sizeof(opcodeFTable[0])) {
+        (this->*opcodeFTable[lsb])(x, y, lsn, lsb, addr);
     }
 }
