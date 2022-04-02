@@ -11,8 +11,9 @@
 #include <cstdint>
 #include <string>
 #include <random>
+#include "AssemblyInstr.h"
 
-namespace mpc {
+namespace mpc::Chip8 {
 
 /** @class Chip8 Chip8.h "Chip8.h"
  *  @brief CHIP-8 Emulator Class
@@ -22,7 +23,7 @@ class Chip8 {
 /**
  * @brief Opcode emulation function typedef
  */
-typedef void (mpc::Chip8::*OpCodeFn)(uint8_t, uint8_t, uint8_t, uint8_t, uint16_t);
+typedef void (mpc::Chip8::Chip8::*OpCodeFn)(const mpc::Chip8::AssemblyInstr &);
 
 public:
     Chip8();
@@ -73,246 +74,90 @@ private:
     int initOpcodeTables();
 
     // Opcode emulation functions
-    void op00E0_CLS(uint8_t x,
-                    uint8_t y,
-                    uint8_t lsn,
-                    uint8_t lsb,
-                    uint16_t addr);
+    void op00E0_CLS(const AssemblyInstr &instr);
 
-    void op00EE_RET(uint8_t x,
-                    uint8_t y,
-                    uint8_t lsn,
-                    uint8_t lsb,
-                    uint16_t addr);
+    void op00EE_RET(const AssemblyInstr &instr);
 
-    void op1nnn_JP_addr(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr);
+    void op1nnn_JP_addr(const AssemblyInstr &instr);
 
-    void op2nnn_CALL_addr(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr);
+    void op2nnn_CALL_addr(const AssemblyInstr &instr);
 
-    void op3xnn_SE_Vx_byte(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr);
+    void op3xnn_SE_Vx_byte(const AssemblyInstr &instr);
 
-    void op4xnn_SNE_Vx_byte(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr);
+    void op4xnn_SNE_Vx_byte(const AssemblyInstr &instr);
 
-    void op5xy0_SE_Vx_Vy(uint8_t x,
-                         uint8_t y,
-                         uint8_t lsn,
-                         uint8_t lsb,
-                         uint16_t addr);
+    void op5xy0_SE_Vx_Vy(const AssemblyInstr &instr);
 
-    void op6xnn_LD_Vx_byte(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr);
+    void op6xnn_LD_Vx_byte(const AssemblyInstr &instr);
 
-    void op7xnn_ADD_Vx_byte(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr);
+    void op7xnn_ADD_Vx_byte(const AssemblyInstr &instr);
 
-    void op8xy0_LD_Vx_Vy(uint8_t x,
-                         uint8_t y,
-                         uint8_t lsn,
-                         uint8_t lsb,
-                         uint16_t addr);
+    void op8xy0_LD_Vx_Vy(const AssemblyInstr &instr);
 
-    void op8xy1_OR_Vx_Vy(uint8_t x,
-                         uint8_t y,
-                         uint8_t lsn,
-                         uint8_t lsb,
-                         uint16_t addr);
+    void op8xy1_OR_Vx_Vy(const AssemblyInstr &instr);
 
-    void op8xy2_AND_Vx_Vy(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr);
+    void op8xy2_AND_Vx_Vy(const AssemblyInstr &instr);
 
-    void op8xy3_XOR_Vx_Vy(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr);
+    void op8xy3_XOR_Vx_Vy(const AssemblyInstr &instr);
 
-    void op8xy4_ADD_Vx_Vy(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr);
+    void op8xy4_ADD_Vx_Vy(const AssemblyInstr &instr);
 
-    void op8xy5_SUB_Vx_Vy(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr);
+    void op8xy5_SUB_Vx_Vy(const AssemblyInstr &instr);
 
-    void op8xy6_SHR_Vx(uint8_t x,
-                       uint8_t y,
-                       uint8_t lsn,
-                       uint8_t lsb,
-                       uint16_t addr);
+    void op8xy6_SHR_Vx(const AssemblyInstr &instr);
 
-    void op8xy7_SUBN_Vx_Vy(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr);
+    void op8xy7_SUBN_Vx_Vy(const AssemblyInstr &instr);
 
-    void op8xyE_SHL_Vx_Vy(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr);
+    void op8xyE_SHL_Vx_Vy(const AssemblyInstr &instr);
 
-    void op9xy0_SNE_Vx_Vy(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr);
+    void op9xy0_SNE_Vx_Vy(const AssemblyInstr &instr);
 
-    void opAnnn_LD_I_addr(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr);
+    void opAnnn_LD_I_addr(const AssemblyInstr &instr);
 
-    void opBnnn_JP_V0(uint8_t x,
-                      uint8_t y,
-                      uint8_t lsn,
-                      uint8_t lsb,
-                      uint16_t addr);
+    void opBnnn_JP_V0(const AssemblyInstr &instr);
 
-    void opCxnn_RND_Vx_byte(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr);
+    void opCxnn_RND_Vx_byte(const AssemblyInstr &instr);
 
-    void opDxyn_DRW_Vx_Vy_nibble(uint8_t x,
-                                 uint8_t y,
-                                 uint8_t lsn,
-                                 uint8_t lsb,
-                                 uint16_t addr);
+    void opDxyn_DRW_Vx_Vy_nibble(const AssemblyInstr &instr);
 
-    void opEx9E_SKP_Vx(uint8_t x,
-                       uint8_t y,
-                       uint8_t lsn,
-                       uint8_t lsb,
-                       uint16_t addr);
+    void opEx9E_SKP_Vx(const AssemblyInstr &instr);
 
-    void opExA1_SKNP_Vx(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr);
+    void opExA1_SKNP_Vx(const AssemblyInstr &instr);
 
-    void opFx07_LD_Vx_DT(uint8_t x,
-                         uint8_t y,
-                         uint8_t lsn,
-                         uint8_t lsb,
-                         uint16_t addr);
+    void opFx07_LD_Vx_DT(const AssemblyInstr &instr);
 
-    void opFx0A_LD_Vx_K(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr);
+    void opFx0A_LD_Vx_K(const AssemblyInstr &instr);
 
-    void opFx15_LD_DT_Vx(uint8_t x,
-                         uint8_t y,
-                         uint8_t lsn,
-                         uint8_t lsb,
-                         uint16_t addr);
+    void opFx15_LD_DT_Vx(const AssemblyInstr &instr);
 
-    void opFx18_LD_ST_Vx(uint8_t x,
-                         uint8_t y,
-                         uint8_t lsn,
-                         uint8_t lsb,
-                         uint16_t addr);
+    void opFx18_LD_ST_Vx(const AssemblyInstr &instr);
 
-    void opFx1E_ADD_I_Vx(uint8_t x,
-                         uint8_t y,
-                         uint8_t lsn,
-                         uint8_t lsb,
-                         uint16_t addr);
+    void opFx1E_ADD_I_Vx(const AssemblyInstr &instr);
 
-    void opFx29_LD_F_Vx(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr);
+    void opFx29_LD_F_Vx(const AssemblyInstr &instr);
 
-    void opFx33_LD_B_Vx(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr);
+    void opFx33_LD_B_Vx(const AssemblyInstr &instr);
 
-    void opFx55_LD_I_Vx(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr);
+    void opFx55_LD_I_Vx(const AssemblyInstr &instr);
 
-    void opFx65_LD_Vx_I(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr);
+    void opFx65_LD_Vx_I(const AssemblyInstr &instr);
 
-    void opNULL(uint8_t x,
-                uint8_t y,
-                uint8_t lsn,
-                uint8_t lsb,
-                uint16_t addr);
+    void opNULL(const AssemblyInstr &instr);
 
     // Opcode table functions
-    void execOpcode0(uint8_t x,
-                     uint8_t y,
-                     uint8_t lsn,
-                     uint8_t lsb,
-                     uint16_t addr);
+    void execOpcode0(const AssemblyInstr &instr);
 
-    void execOpcode8(uint8_t x,
-                     uint8_t y,
-                     uint8_t lsn,
-                     uint8_t lsb,
-                     uint16_t addr);
+    void execOpcode8(const AssemblyInstr &instr);
 
-    void execOpcodeE(uint8_t x,
-                     uint8_t y,
-                     uint8_t lsn,
-                     uint8_t lsb,
-                     uint16_t addr);
+    void execOpcodeE(const AssemblyInstr &instr);
 
-    void execOpcodeF(uint8_t x,
-                     uint8_t y,
-                     uint8_t lsn,
-                     uint8_t lsb,
-                     uint16_t addr);
+    void execOpcodeF(const AssemblyInstr &instr);
 
     static const uint8_t fontset[Chip8::numBuiltInChars][Chip8::charSizeBytes]; /**< Fontset built into each CHIP-8 */
 
-    uint8_t registers[Chip8::numRegisters]; /**< CPU registers */
+    uint8_t registers[Chip8::numRegisters]; /**< Emulated 16-bit CPU registers */
 
-    uint8_t memory[Chip8::memorySize]; /**< Storage memory for a CHIP-8 */
+    uint8_t memory[Chip8::memorySize]; /**< Emulated storage memory for a CHIP-8 */
 
     uint16_t indexRegister; /**< Register used to store memory addresses for use in operations */
 

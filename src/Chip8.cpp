@@ -9,7 +9,7 @@
 #include <fstream>
 #include "Chip8.h"
 
-namespace mpc {
+namespace mpc::Chip8 {
 
 const uint8_t Chip8::fontset[Chip8::numBuiltInChars][Chip8::charSizeBytes] = {
         { 0xF0, 0x90, 0x90, 0x90, 0xF0 }, // 0
@@ -193,928 +193,521 @@ int Chip8::initOpcodeTables() {
     }
 
     // Index each opcode function by their appropriate opcodes
-    mainOpcodeTable[0x0] = &Chip8::execOpcode0;
-    mainOpcodeTable[0x1] = &Chip8::op1nnn_JP_addr;
-    mainOpcodeTable[0x2] = &Chip8::op2nnn_CALL_addr;
-    mainOpcodeTable[0x3] = &Chip8::op3xnn_SE_Vx_byte;
-    mainOpcodeTable[0x4] = &Chip8::op4xnn_SNE_Vx_byte;
-    mainOpcodeTable[0x5] = &Chip8::op5xy0_SE_Vx_Vy;
-    mainOpcodeTable[0x6] = &Chip8::op6xnn_LD_Vx_byte;
-    mainOpcodeTable[0x7] = &Chip8::op7xnn_ADD_Vx_byte;
-    mainOpcodeTable[0x8] = &Chip8::execOpcode8;
-    mainOpcodeTable[0x9] = &Chip8::op9xy0_SNE_Vx_Vy;
-    mainOpcodeTable[0xA] = &Chip8::opAnnn_LD_I_addr;
-    mainOpcodeTable[0xB] = &Chip8::opBnnn_JP_V0;
-    mainOpcodeTable[0xC] = &Chip8::opCxnn_RND_Vx_byte;
-    mainOpcodeTable[0xD] = &Chip8::opDxyn_DRW_Vx_Vy_nibble;
-    mainOpcodeTable[0xE] = &Chip8::execOpcodeE;
-    mainOpcodeTable[0xF] = &Chip8::execOpcodeF;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_00EN)] = &Chip8::execOpcode0;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_1NNN_JP_ADDR)] = &Chip8::op1nnn_JP_addr;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_2NNN_CALL_ADDR)] = &Chip8::op2nnn_CALL_addr;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_3XNN_SE_VX_NN)] = &Chip8::op3xnn_SE_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_4XNN_SNE_VX_NN)] = &Chip8::op4xnn_SNE_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_5XY0_SE_VX_VY)] = &Chip8::op5xy0_SE_Vx_Vy;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_6XNN_LD_VX_NN)] = &Chip8::op6xnn_LD_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_7XNN_ADD_VX_NN)] = &Chip8::op7xnn_ADD_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_8XYN)] = &Chip8::execOpcode8;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_9XY0_SNE_VX_VY)] = &Chip8::op9xy0_SNE_Vx_Vy;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_ANNN_LD_I_ADDR)] = &Chip8::opAnnn_LD_I_addr;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_BNNN_JP_V0)] = &Chip8::opBnnn_JP_V0;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_CXNN_RND_VX_NN)] = &Chip8::opCxnn_RND_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_DXYN_DRW_VX_VY_N)] = &Chip8::opDxyn_DRW_Vx_Vy_nibble;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_EXKN)] = &Chip8::execOpcodeE;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_FXNN)] = &Chip8::execOpcodeF;
 
-    opcode0Table[0x0] = &Chip8::op00E0_CLS;
-    opcode0Table[0xE] = &Chip8::op00EE_RET;
+    // Index the below opcodes by their appropriate subtype
+    // Opcodes 00EN
+    opcode0Table[static_cast<uint8_t>(OpSubtype::OP_00E0_CLS)] = &Chip8::op00E0_CLS;
+    opcode0Table[static_cast<uint8_t>(OpSubtype::OP_00EE_RET)] = &Chip8::op00EE_RET;
 
-    opcode8Table[0x0] = &Chip8::op8xy0_LD_Vx_Vy;
-    opcode8Table[0x1] = &Chip8::op8xy1_OR_Vx_Vy;
-    opcode8Table[0x2] = &Chip8::op8xy2_AND_Vx_Vy;
-    opcode8Table[0x3] = &Chip8::op8xy3_XOR_Vx_Vy;
-    opcode8Table[0x4] = &Chip8::op8xy4_ADD_Vx_Vy;
-    opcode8Table[0x5] = &Chip8::op8xy5_SUB_Vx_Vy;
-    opcode8Table[0x6] = &Chip8::op8xy6_SHR_Vx;
-    opcode8Table[0x7] = &Chip8::op8xy7_SUBN_Vx_Vy;
-    opcode8Table[0xE] = &Chip8::op8xyE_SHL_Vx_Vy;
+    // Opcodes 8XYN
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY0_LD_VX_VY)] = &Chip8::op8xy0_LD_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY1_OR_VX_VY)] = &Chip8::op8xy1_OR_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY2_AND_VX_VY)] = &Chip8::op8xy2_AND_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY3_XOR_VX_VY)] = &Chip8::op8xy3_XOR_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY4_ADD_VX_VY)] = &Chip8::op8xy4_ADD_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY5_SUB_VX_VY)] = &Chip8::op8xy5_SUB_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY6_SHR_VX)] = &Chip8::op8xy6_SHR_Vx;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY7_SUBN_VX_VY)] = &Chip8::op8xy7_SUBN_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XYE_SHL_VX_VY)] = &Chip8::op8xyE_SHL_Vx_Vy;
 
-    opcodeETable[0x1] = &Chip8::opExA1_SKNP_Vx;
-    opcodeETable[0xE] = &Chip8::opEx9E_SKP_Vx;
+    // Opcodes EXKN
+    opcodeETable[static_cast<uint8_t>(OpSubtype::OP_EXA1_SKNP_VX)] = &Chip8::opExA1_SKNP_Vx;
+    opcodeETable[static_cast<uint8_t>(OpSubtype::OP_EX9E_SKP_VX)] = &Chip8::opEx9E_SKP_Vx;
 
-    opcodeFTable[0x07] = &Chip8::opFx07_LD_Vx_DT;
-    opcodeFTable[0x0A] = &Chip8::opFx0A_LD_Vx_K;
-    opcodeFTable[0x15] = &Chip8::opFx15_LD_DT_Vx;
-    opcodeFTable[0x18] = &Chip8::opFx18_LD_ST_Vx;
-    opcodeFTable[0x1E] = &Chip8::opFx1E_ADD_I_Vx;
-    opcodeFTable[0x29] = &Chip8::opFx29_LD_F_Vx;
-    opcodeFTable[0x33] = &Chip8::opFx33_LD_B_Vx;
-    opcodeFTable[0x55] = &Chip8::opFx55_LD_I_Vx;
-    opcodeFTable[0x65] = &Chip8::opFx65_LD_Vx_I;
+    // Opcodes FXNN
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX07_LD_VX_DT)] = &Chip8::opFx07_LD_Vx_DT;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX0A_LD_VX_K)] = &Chip8::opFx0A_LD_Vx_K;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX15_LD_DT_VX)] = &Chip8::opFx15_LD_DT_Vx;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX18_LD_ST_VX)] = &Chip8::opFx18_LD_ST_Vx;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX1E_ADD_I_VX)] = &Chip8::opFx1E_ADD_I_Vx;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX29_LD_F_VX)] = &Chip8::opFx29_LD_F_Vx;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX33_LD_B_VX)] = &Chip8::opFx33_LD_B_Vx;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX55_LD_I_VX)] = &Chip8::opFx55_LD_I_Vx;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX65_LD_VX_I)] = &Chip8::opFx65_LD_Vx_I;
 
     return status;
 }
 
 // Opcode emulation functions
 /**
- * @fn void Chip8::op00E0_CLS(uint8_t x,
- *                            uint8_t y,
- *                            uint8_t lsn,
- *                            uint8_t lsb,
- *                            uint16_t addr)
+ * @fn void Chip8::op00E0_CLS(const AssemblyInstr &instr)
  * @brief Opcode 00E0: Clears the screen.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op00E0_CLS(uint8_t x,
-                       uint8_t y,
-                       uint8_t lsn,
-                       uint8_t lsb,
-                       uint16_t addr) {
+void Chip8::op00E0_CLS(const AssemblyInstr &instr) {
     memset(videoMem, 0, sizeof(videoMem));
 }
 
 /**
- * @fn void Chip8::op00EE_RET(uint8_t x,
- *                            uint8_t y,
- *                            uint8_t lsn,
- *                            uint8_t lsb,
- *                            uint16_t addr)
+ * @fn void Chip8::op00EE_RET(const AssemblyInstr &instr)
  * @brief Opcode 00EE: Returns from a subroutine.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op00EE_RET(uint8_t x,
-                       uint8_t y,
-                       uint8_t lsn,
-                       uint8_t lsb,
-                       uint16_t addr) {
+void Chip8::op00EE_RET(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::op1nnn_JP_addr(uint8_t x,
- *                                uint8_t y,
- *                                uint8_t lsn,
- *                                uint8_t lsb,
- *                                uint16_t addr)
+ * @fn void Chip8::op1nnn_JP_addr(const AssemblyInstr &instr)
  * @brief Opcode 1nnn: Jumps to a memory address.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op1nnn_JP_addr(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr) {
-    programCounter = addr;
+void Chip8::op1nnn_JP_addr(const AssemblyInstr &instr) {
+    uint16_t addr = instr.getParam(0);
+    if (addr <= Chip8::chip8HighAddr) {
+        programCounter = addr;
+    }
 }
 
 /**
- * @fn void Chip8::op2nnn_CALL_addr(uint8_t x,
- *                                  uint8_t y,
- *                                  uint8_t lsn,
- *                                  uint8_t lsb,
- *                                  uint16_t addr)
+ * @fn void Chip8::op2nnn_CALL_addr(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op2nnn_CALL_addr(uint8_t x,
-                             uint8_t y,
-                             uint8_t lsn,
-                             uint8_t lsb,
-                             uint16_t addr) {
+void Chip8::op2nnn_CALL_addr(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::op3xnn_SE_Vx_byte(uint8_t x,
- *                                   uint8_t y,
- *                                   uint8_t lsn,
- *                                   uint8_t lsb,
- *                                   uint16_t addr)
+ * @fn void Chip8::op3xnn_SE_Vx_byte(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op3xnn_SE_Vx_byte(uint8_t x,
-                              uint8_t y,
-                              uint8_t lsn,
-                              uint8_t lsb,
-                              uint16_t addr) {
+void Chip8::op3xnn_SE_Vx_byte(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::op4xnn_SNE_Vx_byte(uint8_t x,
- *                                    uint8_t y,
- *                                    uint8_t lsn,
- *                                    uint8_t lsb,
- *                                    uint16_t addr)
+ * @fn void Chip8::op4xnn_SNE_Vx_byte(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op4xnn_SNE_Vx_byte(uint8_t x,
-                               uint8_t y,
-                               uint8_t lsn,
-                               uint8_t lsb,
-                               uint16_t addr) {
+void Chip8::op4xnn_SNE_Vx_byte(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::op5xy0_SE_Vx_Vy(uint8_t x,
- *                                 uint8_t y,
- *                                 uint8_t lsn,
- *                                 uint8_t lsb,
- *                                 uint16_t addr)
+ * @fn void Chip8::op5xy0_SE_Vx_Vy(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op5xy0_SE_Vx_Vy(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr) {
+void Chip8::op5xy0_SE_Vx_Vy(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::op6xnn_LD_Vx_byte(uint8_t x,
- *                                   uint8_t y,
- *                                   uint8_t lsn,
- *                                   uint8_t lsb,
- *                                   uint16_t addr)
+ * @fn void Chip8::op6xnn_LD_Vx_byte(const AssemblyInstr &instr)
  * @brief Opcode 6xnn: Sets register Vx with value nn.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op6xnn_LD_Vx_byte(uint8_t x,
-                              uint8_t y,
-                              uint8_t lsn,
-                              uint8_t lsb,
-                              uint16_t addr) {
-    registers[x] = lsb;
+void Chip8::op6xnn_LD_Vx_byte(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t nn = instr.getParam(1);
+    if (x < Chip8::numRegisters) {
+        registers[x] = nn;
+    }
 }
 
 /**
- * @fn void Chip8::op7xnn_ADD_Vx_byte(uint8_t x,
- *                                    uint8_t y,
- *                                    uint8_t lsn,
- *                                    uint8_t lsb,
- *                                    uint16_t addr)
+ * @fn void Chip8::op7xnn_ADD_Vx_byte(const AssemblyInstr &instr)
  * @brief Opcode 7xnn: Adds value nn to register Vx.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op7xnn_ADD_Vx_byte(uint8_t x,
-                               uint8_t y,
-                               uint8_t lsn,
-                               uint8_t lsb,
-                               uint16_t addr) {
-    registers[x] += lsb;
+void Chip8::op7xnn_ADD_Vx_byte(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t nn = instr.getParam(1);
+    if (x < Chip8::numRegisters) {
+        registers[x] += nn;
+    }
 }
 
 /**
- * @fn void Chip8::op8xy0_LD_Vx_Vy(uint8_t x,
- *                                 uint8_t y,
- *                                 uint8_t lsn,
- *                                 uint8_t lsb,
- *                                 uint16_t addr)
+ * @fn void Chip8::op8xy0_LD_Vx_Vy(const AssemblyInstr &instr)
  * @brief Opcode 8xy0: Sets Vx to the value of Vy.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op8xy0_LD_Vx_Vy(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr) {
-    registers[x] = registers[y];
+void Chip8::op8xy0_LD_Vx_Vy(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t y = instr.getParam(1);
+    if (x < Chip8::numRegisters && y < Chip8::numRegisters) {
+        registers[x] = registers[y];
+    }
 }
 
 /**
- * @fn void Chip8::op8xy1_OR_Vx_Vy(uint8_t x,
- *                                 uint8_t y,
- *                                 uint8_t lsn,
- *                                 uint8_t lsb,
- *                                 uint16_t addr)
+ * @fn void Chip8::op8xy1_OR_Vx_Vy(const AssemblyInstr &instr)
  * @brief Opcode 8xy1: Sets Vx to the bitwise OR value of Vx and Vy.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op8xy1_OR_Vx_Vy(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr) {
-    registers[x] |= registers[y];
+void Chip8::op8xy1_OR_Vx_Vy(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t y = instr.getParam(1);
+    if (x < Chip8::numRegisters && y < Chip8::numRegisters) {
+        registers[x] |= registers[y];
+    }
 }
 
 /**
- * @fn void Chip8::op8xy2_AND_Vx_Vy(uint8_t x,
- *                                  uint8_t y,
- *                                  uint8_t lsn,
- *                                  uint8_t lsb,
- *                                  uint16_t addr)
+ * @fn void Chip8::op8xy2_AND_Vx_Vy(const AssemblyInstr &instr)
  * @brief Opcode 8xy2: Sets Vx to the bitwise AND value of Vx and Vy.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op8xy2_AND_Vx_Vy(uint8_t x,
-                             uint8_t y,
-                             uint8_t lsn,
-                             uint8_t lsb,
-                             uint16_t addr) {
-    registers[x] &= registers[y];
+void Chip8::op8xy2_AND_Vx_Vy(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t y = instr.getParam(1);
+    if (x < Chip8::numRegisters && y < Chip8::numRegisters) {
+        registers[x] &= registers[y];
+    }
 }
 
 /**
- * @fn void Chip8::op8xy3_XOR_Vx_Vy(uint8_t x,
- *                                  uint8_t y,
- *                                  uint8_t lsn,
- *                                  uint8_t lsb,
- *                                  uint16_t addr)
+ * @fn void Chip8::op8xy3_XOR_Vx_Vy(const AssemblyInstr &instr)
  * @brief Opcode 8xy2: Sets Vx to the bitwise XOR value of Vx and Vy.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op8xy3_XOR_Vx_Vy(uint8_t x,
-                             uint8_t y,
-                             uint8_t lsn,
-                             uint8_t lsb,
-                             uint16_t addr) {
-    registers[x] ^= registers[y];
+void Chip8::op8xy3_XOR_Vx_Vy(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t y = instr.getParam(1);
+    if (x < Chip8::numRegisters && y < Chip8::numRegisters) {
+        registers[x] ^= registers[y];
+    }
 }
 
 /**
- * @fn void Chip8::op8xy4_ADD_Vx_Vy(uint8_t x,
- *                                  uint8_t y,
- *                                  uint8_t lsn,
- *                                  uint8_t lsb,
- *                                  uint16_t addr)
+ * @fn void Chip8::op8xy4_ADD_Vx_Vy(const AssemblyInstr &instr)
  * @brief Opcode 8xy4: Sets Vx to the sum of Vx and Vy. 
  *        This addition will affect the carry flag (VF) in the case of bit overflow.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op8xy4_ADD_Vx_Vy(uint8_t x,
-                             uint8_t y,
-                             uint8_t lsn,
-                             uint8_t lsb,
-                             uint16_t addr) {
-    uint16_t sum = registers[x] + registers[y];
-    registers[x] = sum;
-    registers[Chip8::opResultReg] = (sum > 0xFF);
+void Chip8::op8xy4_ADD_Vx_Vy(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t y = instr.getParam(1);
+    if (x < Chip8::numRegisters && y < Chip8::numRegisters) {
+        uint16_t sum = registers[x] + registers[y];
+        registers[x] = sum;
+        registers[Chip8::opResultReg] = (sum > 0xFF);
+    }
 }
 
 /**
- * @fn void Chip8::op8xy5_SUB_Vx_Vy(uint8_t x,
- *                                  uint8_t y,
- *                                  uint8_t lsn,
- *                                  uint8_t lsb,
- *                                  uint16_t addr)
+ * @fn void Chip8::op8xy5_SUB_Vx_Vy(const AssemblyInstr &instr)
  * @brief Opcode 8xy5: Sets Vx to the value of Vx minus Vy. 
  *        If the first operand is larger than the second operand, the carry flag (VF) will be set to 1.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op8xy5_SUB_Vx_Vy(uint8_t x,
-                             uint8_t y,
-                             uint8_t lsn,
-                             uint8_t lsb,
-                             uint16_t addr) {
-    registers[Chip8::opResultReg] = (registers[x] >= registers[y]);
-    registers[x] -= registers[y];
+void Chip8::op8xy5_SUB_Vx_Vy(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t y = instr.getParam(1);
+    if (x < Chip8::numRegisters && y < Chip8::numRegisters) {
+        registers[Chip8::opResultReg] = (registers[x] >= registers[y]);
+        registers[x] -= registers[y];
+    }
 }
 
 /**
- * @fn void Chip8::op8xy6_SHR_Vx(uint8_t x,
- *                               uint8_t y,
- *                               uint8_t lsn,
- *                               uint8_t lsb,
- *                               uint16_t addr)
+ * @fn void Chip8::op8xy6_SHR_Vx(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op8xy6_SHR_Vx(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr) {
+void Chip8::op8xy6_SHR_Vx(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::op8xy7_SUBN_Vx_Vy(uint8_t x,
- *                                   uint8_t y,
- *                                   uint8_t lsn,
- *                                   uint8_t lsb,
- *                                   uint16_t addr)
+ * @fn void Chip8::op8xy7_SUBN_Vx_Vy(const AssemblyInstr &instr)
  * @brief Opcode 8xy7: Sets Vx to the value of Vx minus Vy. 
  *        If the first operand is larger than the second operand, the carry flag (VF) will be set to 1.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op8xy7_SUBN_Vx_Vy(uint8_t x,
-                              uint8_t y,
-                              uint8_t lsn,
-                              uint8_t lsb,
-                              uint16_t addr) {
-    registers[Chip8::opResultReg] = (registers[y] >= registers[x]);
-    registers[x] = (registers[y] - registers[x]);
+void Chip8::op8xy7_SUBN_Vx_Vy(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t y = instr.getParam(1);
+    if (x < Chip8::numRegisters && y < Chip8::numRegisters) {
+        registers[Chip8::opResultReg] = (registers[y] >= registers[x]);
+        registers[x] = (registers[y] - registers[x]);
+    }
 }
 
 /**
- * @fn void Chip8::op8xyE_SHL_Vx_Vy(uint8_t x,
- *                                  uint8_t y,
- *                                  uint8_t lsn,
- *                                  uint8_t lsb,
- *                                  uint16_t addr)
+ * @fn void Chip8::op8xyE_SHL_Vx_Vy(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op8xyE_SHL_Vx_Vy(uint8_t x,
-                             uint8_t y,
-                             uint8_t lsn,
-                             uint8_t lsb,
-                             uint16_t addr) {
+void Chip8::op8xyE_SHL_Vx_Vy(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::op9xy0_SNE_Vx_Vy(uint8_t x,
- *                                  uint8_t y,
- *                                  uint8_t lsn,
- *                                  uint8_t lsb,
- *                                  uint16_t addr)
+ * @fn void Chip8::op9xy0_SNE_Vx_Vy(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::op9xy0_SNE_Vx_Vy(uint8_t x,
-                             uint8_t y,
-                             uint8_t lsn,
-                             uint8_t lsb,
-                             uint16_t addr) {
+void Chip8::op9xy0_SNE_Vx_Vy(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opAnnn_LD_I_addr(uint8_t x,
- *                                  uint8_t y,
- *                                  uint8_t lsn,
- *                                  uint8_t lsb,
- *                                  uint16_t addr) 
+ * @fn void Chip8::opAnnn_LD_I_addr(const AssemblyInstr &instr)
  * @brief Opcode Annn: Sets index register I with address nnn.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opAnnn_LD_I_addr(uint8_t x,
-                             uint8_t y,
-                             uint8_t lsn,
-                             uint8_t lsb,
-                             uint16_t addr) {
-    indexRegister = addr;
+void Chip8::opAnnn_LD_I_addr(const AssemblyInstr &instr) {
+    uint16_t addr = instr.getParam(0);
+    if (addr <= Chip8::chip8HighAddr) {
+        indexRegister = addr;
+    }
 }
 
 /**
- * @fn void Chip8::opBnnn_JP_V0(uint8_t x,
- *                              uint8_t y,
- *                              uint8_t lsn,
- *                              uint8_t lsb,
- *                              uint16_t addr)
+ * @fn void Chip8::opBnnn_JP_V0(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opBnnn_JP_V0(uint8_t x,
-                         uint8_t y,
-                         uint8_t lsn,
-                         uint8_t lsb,
-                         uint16_t addr) {
+void Chip8::opBnnn_JP_V0(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opCxnn_RND_Vx_byte(uint8_t x,
- *                                    uint8_t y,
- *                                    uint8_t lsn,
- *                                    uint8_t lsb,
- *                                    uint16_t addr)
+ * @fn void Chip8::opCxnn_RND_Vx_byte(const AssemblyInstr &instr)
  * @brief Opcode Cxnn: Generates a random number, binary ANDs it with value nn, and stores the result in Vx.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opCxnn_RND_Vx_byte(uint8_t x,
-                               uint8_t y,
-                               uint8_t lsn,
-                               uint8_t lsb,
-                               uint16_t addr) {
-    registers[x] = (Chip8::getRandByte() & lsb);
+void Chip8::opCxnn_RND_Vx_byte(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t nn = instr.getParam(1);
+    if (x < Chip8::numRegisters) {
+        registers[x] = (Chip8::getRandByte() & nn);
+    }
 }
 
 /**
- * @fn void Chip8::opDxyn_DRW_Vx_Vy_nibble(uint8_t x,
- *                                         uint8_t y,
- *                                         uint8_t lsn,
- *                                         uint8_t lsb,
- *                                         uint16_t addr)
+ * @fn void Chip8::opDxyn_DRW_Vx_Vy_nibble(const AssemblyInstr &instr)
  * @brief Opcode Dxyn: Display instruction
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opDxyn_DRW_Vx_Vy_nibble(uint8_t x,
-                                    uint8_t y,
-                                    uint8_t lsn,
-                                    uint8_t lsb,
-                                    uint16_t addr) {
-    // Fetch the x and y coordinates from Vx and Vy
-    uint8_t xCoord = registers[x];
-    uint8_t yCoord = registers[y];
+void Chip8::opDxyn_DRW_Vx_Vy_nibble(const AssemblyInstr &instr) {
+    uint8_t x = instr.getParam(0);
+    uint8_t y = instr.getParam(1);
+    uint8_t n = instr.getParam(2);
 
-    /** @todo TODO: Implement opcode behavior */
+    if (x < Chip8::numRegisters && y < Chip8::numRegisters) {
+        // Fetch the x and y coordinates from Vx and Vy
+        uint8_t xCoord = registers[x];
+        uint8_t yCoord = registers[y];
+
+        /** @todo TODO: Implement opcode behavior */
+    }
 }
 
 /**
- * @fn void Chip8::opEx9E_SKP_Vx(uint8_t x,
- *                               uint8_t y,
- *                               uint8_t lsn,
- *                               uint8_t lsb,
- *                               uint16_t addr)
+ * @fn void Chip8::opEx9E_SKP_Vx(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opEx9E_SKP_Vx(uint8_t x,
-                          uint8_t y,
-                          uint8_t lsn,
-                          uint8_t lsb,
-                          uint16_t addr) {
+void Chip8::opEx9E_SKP_Vx(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opExA1_SKNP_Vx(uint8_t x,
- *                                uint8_t y,
- *                                uint8_t lsn,
- *                                uint8_t lsb,
- *                                uint16_t addr)
+ * @fn void Chip8::opExA1_SKNP_Vx(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opExA1_SKNP_Vx(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr) {
+void Chip8::opExA1_SKNP_Vx(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opFx07_LD_Vx_DT(uint8_t x,
- *                                 uint8_t y,
- *                                 uint8_t lsn,
- *                                 uint8_t lsb,
- *                                 uint16_t addr) 
+ * @fn void Chip8::opFx07_LD_Vx_DT(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opFx07_LD_Vx_DT(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr) {
+void Chip8::opFx07_LD_Vx_DT(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opFx0A_LD_Vx_K(uint8_t x,
- *                                uint8_t y,
- *                                uint8_t lsn,
- *                                uint8_t lsb,
- *                                uint16_t addr)
+ * @fn void Chip8::opFx0A_LD_Vx_K(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opFx0A_LD_Vx_K(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr) {
+void Chip8::opFx0A_LD_Vx_K(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opFx15_LD_DT_Vx(uint8_t x,
- *                                 uint8_t y,
- *                                 uint8_t lsn,
- *                                 uint8_t lsb,
- *                                 uint16_t addr)
+ * @fn void Chip8::opFx15_LD_DT_Vx(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opFx15_LD_DT_Vx(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr) {
+void Chip8::opFx15_LD_DT_Vx(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opFx18_LD_ST_Vx(uint8_t x,
- *                                 uint8_t y,
- *                                 uint8_t lsn,
- *                                 uint8_t lsb,
- *                                 uint16_t addr)
+ * @fn void Chip8::opFx18_LD_ST_Vx(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opFx18_LD_ST_Vx(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr) {
+void Chip8::opFx18_LD_ST_Vx(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opFx1E_ADD_I_Vx(uint8_t x,
- *                                 uint8_t y,
- *                                 uint8_t lsn,
- *                                 uint8_t lsb,
- *                                 uint16_t addr)
+ * @fn void Chip8::opFx1E_ADD_I_Vx(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opFx1E_ADD_I_Vx(uint8_t x,
-                            uint8_t y,
-                            uint8_t lsn,
-                            uint8_t lsb,
-                            uint16_t addr) {
+void Chip8::opFx1E_ADD_I_Vx(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opFx29_LD_F_Vx(uint8_t x,
- *                                uint8_t y,
- *                                uint8_t lsn,
- *                                uint8_t lsb,
- *                                uint16_t addr)
+ * @fn void Chip8::opFx29_LD_F_Vx(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opFx29_LD_F_Vx(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr) {
+void Chip8::opFx29_LD_F_Vx(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opFx33_LD_B_Vx(uint8_t x,
- *                                uint8_t y,
- *                                uint8_t lsn,
- *                                uint8_t lsb,
- *                                uint16_t addr)
+ * @fn void Chip8::opFx33_LD_B_Vx(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opFx33_LD_B_Vx(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr) {
+void Chip8::opFx33_LD_B_Vx(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opFx55_LD_I_Vx(uint8_t x,
- *                                uint8_t y,
- *                                uint8_t lsn,
- *                                uint8_t lsb,
- *                                uint16_t addr)
+ * @fn void Chip8::opFx55_LD_I_Vx(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opFx55_LD_I_Vx(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr) {
+void Chip8::opFx55_LD_I_Vx(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opFx65_LD_Vx_I(uint8_t x,
- *                                uint8_t y,
- *                                uint8_t lsn,
- *                                uint8_t lsb,
- *                                uint16_t addr)
+ * @fn void Chip8::opFx65_LD_Vx_I(const AssemblyInstr &instr)
  * @brief 
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opFx65_LD_Vx_I(uint8_t x,
-                           uint8_t y,
-                           uint8_t lsn,
-                           uint8_t lsb,
-                           uint16_t addr) {
+void Chip8::opFx65_LD_Vx_I(const AssemblyInstr &instr) {
     /** @todo TODO: Implement opcode behavior */
 }
 
 /**
- * @fn void Chip8::opNULL(uint8_t x,
- *                        uint8_t y,
- *                        uint8_t lsn,
- *                        uint8_t lsb,
- *                        uint16_t addr)
+ * @fn void Chip8::opNULL(const AssemblyInstr &instr)
  * @brief Opcode function that performs no action in case of opcode lookup table error.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::opNULL(uint8_t x,
-                   uint8_t y,
-                   uint8_t lsn,
-                   uint8_t lsb,
-                   uint16_t addr) {
+void Chip8::opNULL(const AssemblyInstr &instr) {
 
 }
 
 // Opcode table functions
 /**
- * @fn void Chip8::execOpcode0(uint8_t x,
- *                             uint8_t y,
- *                             uint8_t lsn,
- *                             uint8_t lsb,
- *                             uint16_t addr)
+ * @fn void Chip8::execOpcode0(const AssemblyInstr &instr)
  * @brief Performs a lookup and executes the correct instruction for opcodes with a most-significant nibble of 0.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode. Used as subtype for opcodes 0x0xxx.
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::execOpcode0(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr) {
-    if (lsn < sizeof(opcode0Table)/sizeof(opcode0Table[0])) {
-        (this->*opcode0Table[lsn])(x, y, lsn, lsb, addr);
+void Chip8::execOpcode0(const AssemblyInstr &instr) {
+    uint8_t opParam = instr.getParam(0);
+    if (opParam < sizeof(opcode0Table)/sizeof(opcode0Table[0])) {
+        (this->*opcode0Table[opParam])(instr);
     }
 }
 
 /**
- * @fn void Chip8::execOpcode8(uint8_t x,
- *                             uint8_t y,
- *                             uint8_t lsn,
- *                             uint8_t lsb,
- *                             uint16_t addr)
+ * @fn void Chip8::execOpcode8(const AssemblyInstr &instr)
  * @brief Performs a lookup and executes the correct instruction for opcodes with a most-significant nibble of 8.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode. Used as subtype for opcodes 0x8xxx.
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::execOpcode8(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr) {
-    if (lsn < sizeof(opcode8Table)/sizeof(opcode8Table[0])) {
-       (this->*opcode8Table[lsn])(x, y, lsn, lsb, addr);
+void Chip8::execOpcode8(const AssemblyInstr &instr) {
+    uint8_t opParam = instr.getParam(2);
+    if (opParam < sizeof(opcode8Table)/sizeof(opcode8Table[0])) {
+       (this->*opcode8Table[opParam])(instr);
     }
 }
 
 /**
- * @fn void Chip8::execOpcodeE(uint8_t x,
- *                             uint8_t y,
- *                             uint8_t lsn,
- *                             uint8_t lsb,
- *                             uint16_t addr)
+ * @fn void Chip8::execOpcodeE(const AssemblyInstr &instr)
  * @brief Performs a lookup and executes the correct instruction for opcodes with a most-significant nibble of E.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode. Used as subtype for opcodes 0xExxx.
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::execOpcodeE(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr) {
-    if (lsn < sizeof(opcodeETable)/sizeof(opcodeETable[0])) {
-        (this->*opcodeETable[lsn])(x, y, lsn, lsb, addr);
+void Chip8::execOpcodeE(const AssemblyInstr &instr) {
+    uint8_t opParam = instr.getParam(1);
+    if (opParam < sizeof(opcodeETable)/sizeof(opcodeETable[0])) {
+        (this->*opcodeETable[opParam])(instr);
     }
 }
 
 /**
- * @fn void Chip8::execOpcodeF(uint8_t x,
- *                             uint8_t y,
- *                             uint8_t lsn,
- *                             uint8_t lsb,
- *                             uint16_t addr)
+ * @fn void Chip8::execOpcodeF(const AssemblyInstr &instr)
  * @brief Performs a lookup and executes the correct instruction for opcodes with a most-significant nibble of F.
- * @param[in] x Second nibble value as decoded from 16-bit opcode
- * @param[in] y First nibble value as decoded from 16-bit opcode
- * @param[in] lsn Least significant nibble as decoded from 16-bit opcode
- * @param[in] lsb Least significant byte as decoded from 16-bit opcode. Used as subtype for opcodes 0xFxxx.
- * @param[in] addr Least significant 12-bits as decoded from 16-bit opcode
+ * @param[in] instr Decoded AssemblyInstr object
  * @return none
  */
-void Chip8::execOpcodeF(uint8_t x,
-                        uint8_t y,
-                        uint8_t lsn,
-                        uint8_t lsb,
-                        uint16_t addr) {
-    if (lsb < sizeof(opcodeFTable)/sizeof(opcodeFTable[0])) {
-        (this->*opcodeFTable[lsb])(x, y, lsn, lsb, addr);
+void Chip8::execOpcodeF(const AssemblyInstr &instr) {
+    uint8_t opParam = instr.getParam(1);
+    if (opParam < sizeof(opcodeFTable)/sizeof(opcodeFTable[0])) {
+        (this->*opcodeFTable[opParam])(instr);
     }
 }
 
