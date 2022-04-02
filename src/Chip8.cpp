@@ -87,7 +87,7 @@ int mpc::Chip8::loadRom(std::string fileName) {
         if (buffer == nullptr) {
             status = -1;
         } 
-        else if (size <= mpc::Chip8::memorySize - mpc::Chip8::instrStartAddr) {
+        else if (size > mpc::Chip8::memorySize - mpc::Chip8::instrStartAddr) {
             status = -2;
         } 
         else {
