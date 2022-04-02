@@ -97,13 +97,13 @@ private:
                           uint8_t lsb,
                           uint16_t addr);
 
-    void op3xkk_SE_Vx_byte(uint8_t x,
+    void op3xnn_SE_Vx_byte(uint8_t x,
                            uint8_t y,
                            uint8_t lsn,
                            uint8_t lsb,
                            uint16_t addr);
 
-    void op4xkk_SNE_Vx_byte(uint8_t x,
+    void op4xnn_SNE_Vx_byte(uint8_t x,
                             uint8_t y,
                             uint8_t lsn,
                             uint8_t lsb,
@@ -115,13 +115,13 @@ private:
                          uint8_t lsb,
                          uint16_t addr);
 
-    void op6xkk_LD_Vx_byte(uint8_t x,
+    void op6xnn_LD_Vx_byte(uint8_t x,
                            uint8_t y,
                            uint8_t lsn,
                            uint8_t lsb,
                            uint16_t addr);
 
-    void op7xkk_ADD_Vx_byte(uint8_t x,
+    void op7xnn_ADD_Vx_byte(uint8_t x,
                             uint8_t y,
                             uint8_t lsn,
                             uint8_t lsb,
@@ -199,7 +199,7 @@ private:
                       uint8_t lsb,
                       uint16_t addr);
 
-    void opCxkk_RND_Vx_byte(uint8_t x,
+    void opCxnn_RND_Vx_byte(uint8_t x,
                             uint8_t y,
                             uint8_t lsn,
                             uint8_t lsb,
