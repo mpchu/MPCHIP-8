@@ -169,7 +169,7 @@ int Chip8::loadFont() {
 
 /**
  * @fn int Chip8::initOpcodeTables()
- * @brief 
+ * @brief Initializes opcode function lookup tables.
  * @return 0 on success, negative otherwise 
  */
 int Chip8::initOpcodeTables() {
@@ -193,22 +193,22 @@ int Chip8::initOpcodeTables() {
     }
 
     // Index each opcode function by their appropriate opcodes
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_00EN)] = &Chip8::execOpcode0;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_1NNN_JP_ADDR)] = &Chip8::op1nnn_JP_addr;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_2NNN_CALL_ADDR)] = &Chip8::op2nnn_CALL_addr;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_3XNN_SE_VX_NN)] = &Chip8::op3xnn_SE_Vx_byte;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_4XNN_SNE_VX_NN)] = &Chip8::op4xnn_SNE_Vx_byte;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_5XY0_SE_VX_VY)] = &Chip8::op5xy0_SE_Vx_Vy;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_6XNN_LD_VX_NN)] = &Chip8::op6xnn_LD_Vx_byte;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_7XNN_ADD_VX_NN)] = &Chip8::op7xnn_ADD_Vx_byte;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_8XYN)] = &Chip8::execOpcode8;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_9XY0_SNE_VX_VY)] = &Chip8::op9xy0_SNE_Vx_Vy;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_ANNN_LD_I_ADDR)] = &Chip8::opAnnn_LD_I_addr;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_BNNN_JP_V0)] = &Chip8::opBnnn_JP_V0;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_CXNN_RND_VX_NN)] = &Chip8::opCxnn_RND_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_00EN)            ] = &Chip8::execOpcode0;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_1NNN_JP_ADDR)    ] = &Chip8::op1nnn_JP_addr;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_2NNN_CALL_ADDR)  ] = &Chip8::op2nnn_CALL_addr;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_3XNN_SE_VX_NN)   ] = &Chip8::op3xnn_SE_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_4XNN_SNE_VX_NN)  ] = &Chip8::op4xnn_SNE_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_5XY0_SE_VX_VY)   ] = &Chip8::op5xy0_SE_Vx_Vy;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_6XNN_LD_VX_NN)   ] = &Chip8::op6xnn_LD_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_7XNN_ADD_VX_NN)  ] = &Chip8::op7xnn_ADD_Vx_byte;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_8XYN)            ] = &Chip8::execOpcode8;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_9XY0_SNE_VX_VY)  ] = &Chip8::op9xy0_SNE_Vx_Vy;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_ANNN_LD_I_ADDR)  ] = &Chip8::opAnnn_LD_I_addr;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_BNNN_JP_V0)      ] = &Chip8::opBnnn_JP_V0;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_CXNN_RND_VX_NN)  ] = &Chip8::opCxnn_RND_Vx_byte;
     mainOpcodeTable[static_cast<uint8_t>(OpType::OP_DXYN_DRW_VX_VY_N)] = &Chip8::opDxyn_DRW_Vx_Vy_nibble;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_EXKN)] = &Chip8::execOpcodeE;
-    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_FXNN)] = &Chip8::execOpcodeF;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_EXKN)            ] = &Chip8::execOpcodeE;
+    mainOpcodeTable[static_cast<uint8_t>(OpType::OP_FXNN)            ] = &Chip8::execOpcodeF;
 
     // Index the below opcodes by their appropriate subtype
     // Opcodes 00EN
@@ -216,30 +216,30 @@ int Chip8::initOpcodeTables() {
     opcode0Table[static_cast<uint8_t>(OpSubtype::OP_00EE_RET)] = &Chip8::op00EE_RET;
 
     // Opcodes 8XYN
-    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY0_LD_VX_VY)] = &Chip8::op8xy0_LD_Vx_Vy;
-    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY1_OR_VX_VY)] = &Chip8::op8xy1_OR_Vx_Vy;
-    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY2_AND_VX_VY)] = &Chip8::op8xy2_AND_Vx_Vy;
-    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY3_XOR_VX_VY)] = &Chip8::op8xy3_XOR_Vx_Vy;
-    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY4_ADD_VX_VY)] = &Chip8::op8xy4_ADD_Vx_Vy;
-    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY5_SUB_VX_VY)] = &Chip8::op8xy5_SUB_Vx_Vy;
-    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY6_SHR_VX)] = &Chip8::op8xy6_SHR_Vx;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY0_LD_VX_VY)  ] = &Chip8::op8xy0_LD_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY1_OR_VX_VY)  ] = &Chip8::op8xy1_OR_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY2_AND_VX_VY) ] = &Chip8::op8xy2_AND_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY3_XOR_VX_VY) ] = &Chip8::op8xy3_XOR_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY4_ADD_VX_VY) ] = &Chip8::op8xy4_ADD_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY5_SUB_VX_VY) ] = &Chip8::op8xy5_SUB_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY6_SHR_VX)    ] = &Chip8::op8xy6_SHR_Vx;
     opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XY7_SUBN_VX_VY)] = &Chip8::op8xy7_SUBN_Vx_Vy;
-    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XYE_SHL_VX_VY)] = &Chip8::op8xyE_SHL_Vx_Vy;
+    opcode8Table[static_cast<uint8_t>(OpSubtype::OP_8XYE_SHL_VX_VY) ] = &Chip8::op8xyE_SHL_Vx_Vy;
 
     // Opcodes EXKN
     opcodeETable[static_cast<uint8_t>(OpSubtype::OP_EXA1_SKNP_VX)] = &Chip8::opExA1_SKNP_Vx;
-    opcodeETable[static_cast<uint8_t>(OpSubtype::OP_EX9E_SKP_VX)] = &Chip8::opEx9E_SKP_Vx;
+    opcodeETable[static_cast<uint8_t>(OpSubtype::OP_EX9E_SKP_VX) ] = &Chip8::opEx9E_SKP_Vx;
 
     // Opcodes FXNN
     opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX07_LD_VX_DT)] = &Chip8::opFx07_LD_Vx_DT;
-    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX0A_LD_VX_K)] = &Chip8::opFx0A_LD_Vx_K;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX0A_LD_VX_K) ] = &Chip8::opFx0A_LD_Vx_K;
     opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX15_LD_DT_VX)] = &Chip8::opFx15_LD_DT_Vx;
     opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX18_LD_ST_VX)] = &Chip8::opFx18_LD_ST_Vx;
     opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX1E_ADD_I_VX)] = &Chip8::opFx1E_ADD_I_Vx;
-    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX29_LD_F_VX)] = &Chip8::opFx29_LD_F_Vx;
-    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX33_LD_B_VX)] = &Chip8::opFx33_LD_B_Vx;
-    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX55_LD_I_VX)] = &Chip8::opFx55_LD_I_Vx;
-    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX65_LD_VX_I)] = &Chip8::opFx65_LD_Vx_I;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX29_LD_F_VX) ] = &Chip8::opFx29_LD_F_Vx;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX33_LD_B_VX) ] = &Chip8::opFx33_LD_B_Vx;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX55_LD_I_VX) ] = &Chip8::opFx55_LD_I_Vx;
+    opcodeFTable[static_cast<uint8_t>(OpSubtype::OP_FX65_LD_VX_I) ] = &Chip8::opFx65_LD_Vx_I;
 
     return status;
 }
