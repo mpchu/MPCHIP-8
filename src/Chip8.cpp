@@ -112,6 +112,41 @@ int mpc::Chip8::loadRom(std::string fileName) {
 }
 
 /**
+ * @fn int mpc::Chip8::DecodeOpcode(uint16_t opcode,
+ *                                  uint8_t &instructionType,
+ *                                  uint8_t &x,
+ *                                  uint8_t &y,
+ *                                  uint8_t &lsn,
+ *                                  uint8_t &lsb,
+ *                                  uint16_t &addr)
+ * @brief Decodes a 16-bit opcode instruction. Nibbles will be referred to in this order: 3333 2222 1111 0000
+ * @param[in] opcode 16-bit opcode
+ * @param[out] instructionType Most significant nibble, indicates instruction type
+ * @param[out] x Second nibble, used to look up one of the 16-bit registers (Vx)
+ * @param[out] y First nibble, used to look up one of the 16-bit registers (Vy)
+ * @param[out] lsn Least significant nibble, usually used as a value argument
+ * @param[out] lsb Least significant byte, usually used as a value argument
+ * @param[out] addr The least significant 12 bits, a memory address
+ * @return 0 on success, negative otherwise 
+ */
+int mpc::Chip8::DecodeOpcode(uint16_t opcode,
+                             uint8_t &instructionType,
+                             uint8_t &x,
+                             uint8_t &y,
+                             uint8_t &lsn,
+                             uint8_t &lsb,
+                             uint16_t &addr) {
+    int status = 0;
+    instructionType = (opcode & 0xF000) >> 12;
+    x = (opcode & 0x0F00) >> 8;
+    y = (opcode & 0x00F0) >> 4;
+    lsn = opcode & 0x000F;
+    lsb = opcode & 0x00FF;
+    addr = opcode & 0x0FFF;
+    return status;
+}
+
+/**
  * @fn int mpc::Chip8::loadFont()
  * @brief Loads CHIP-8 character font data into reserved memory.
  * @return 0 on success, negative otherwise 

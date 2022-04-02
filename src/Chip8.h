@@ -31,6 +31,14 @@ public:
 
     int loadRom(std::string fileName);
 
+    static int DecodeOpcode(uint16_t opcode,
+                            uint8_t &instructionType,
+                            uint8_t &x,
+                            uint8_t &y,
+                            uint8_t &lsn,
+                            uint8_t &lsb,
+                            uint16_t &addr);
+
     static const uint8_t  numBuiltInChars = 16; /**< Number of characters built into CHIP-8 */
 
     static const uint8_t  charSizeBytes = 5; /**< Size of built-in characters in bytes */
