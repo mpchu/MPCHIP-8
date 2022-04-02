@@ -30,11 +30,22 @@ const uint8_t AssemblyInstr::paramBitwidths[AssemblyInstr::maxOpType+1][Assembly
         { AssemblyInstr::nibbleBits, AssemblyInstr::byteBits, 0 },                           // Opcode: FXNN
 };
 
+/**
+ * @fn AssemblyInstr::AssemblyInstr(uint16_t opcode)
+ * @brief AssemblyInstr Class Constructor
+ * @param[in] opcode 16-bit opcode
+ * @return none
+ */
 AssemblyInstr::AssemblyInstr(uint16_t opcode) : opcode(opcode) {
     opType = static_cast<OpType>((opcode & 0xF000) >> 12);
     memset(params, 0, sizeof(params));
 }
 
+/**
+ * @fn AssemblyInstr::~AssemblyInstr()
+ * @brief AssemblyInstr Class Destructor
+ * @return none
+ */
 AssemblyInstr::~AssemblyInstr() {
 
 }
