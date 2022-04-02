@@ -98,10 +98,10 @@ int mpc::Chip8::loadRom(std::string fileName) {
 
             // Load the ROM contents into the CHIP-8's memory, starting at 0x200
             if (size <= mpc::Chip8::memorySize - mpc::Chip8::instrStartAddr) {
-                std::memcpy(&memory[mpc::Chip8::instrStartAddr], buffer, sizeof(buffer));
+                std::memcpy(&memory[mpc::Chip8::instrStartAddr], buffer, size);
             } 
             else {
-                status = -1;
+                status = -3;
             }
 
             delete[] buffer;
