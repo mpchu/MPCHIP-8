@@ -91,6 +91,7 @@ int Chip8::loadRom(std::string fileName) {
         } 
         else if (size > Chip8::memorySize - Chip8::instrStartAddr) {
             status = -2;
+            delete[] buffer;
         } 
         else {
             // Go back to the beginning of the file and fill the buffer
