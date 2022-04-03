@@ -144,14 +144,13 @@ private:
 
     void opNULL(const AssemblyInstr &instr);
 
-    // Opcode table functions
-    void execOpcode0(const AssemblyInstr &instr);
+    void op00En(const AssemblyInstr &instr);
 
-    void execOpcode8(const AssemblyInstr &instr);
+    void op8xyn(const AssemblyInstr &instr);
 
-    void execOpcodeE(const AssemblyInstr &instr);
+    void opExKn(const AssemblyInstr &instr);
 
-    void execOpcodeF(const AssemblyInstr &instr);
+    void opFxnn(const AssemblyInstr &instr);
 
     static const uint8_t fontset[Chip8::numBuiltInChars][Chip8::charSizeBytes]; /**< Fontset built into each CHIP-8 */
 
@@ -183,13 +182,13 @@ private:
 
     OpCodeFn mainOpcodeTable[0xF + 1]; /**< Function pointer lookup table for opcodes */
 
-    OpCodeFn opcode0Table[0xE + 1]; /**< Function pointer lookup table for opcodes with most significant nibble of 0x0 */
+    OpCodeFn opcodeTable_00En[0xE + 1]; /**< Function pointer lookup table for opcodes with most significant nibble of 0x0 */
 
-    OpCodeFn opcode8Table[0xE + 1]; /**< Function pointer lookup table for opcodes with most significant nibble of 0x8 */
+    OpCodeFn opcodeTable_8xyn[0xE + 1]; /**< Function pointer lookup table for opcodes with most significant nibble of 0x8 */
 
-    OpCodeFn opcodeETable[0xE + 1]; /**< Function pointer lookup table for opcodes with most significant nibble of 0xE */
+    OpCodeFn opcodeTable_ExKn[0xE + 1]; /**< Function pointer lookup table for opcodes with most significant nibble of 0xE */
 
-    OpCodeFn opcodeFTable[0x65 + 1]; /**< Function pointer lookup table for opcodes with most significant nibble of 0xF */
+    OpCodeFn opcodeTable_Fxnn[0x65 + 1]; /**< Function pointer lookup table for opcodes with most significant nibble of 0xF */
 };
 
 }
